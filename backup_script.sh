@@ -46,4 +46,4 @@ else
 fi
 
 #copy log file to a drive 
-rclone copy /home/exo/BACKUP_${DATE}.log rover-backup:/Jetson-TX2/Backups/EXO/EXO-${DATE}/
+rclone copy /home/exo/Backups/BACKUP_${DATE}.log rover-backup:/Jetson-TX2/Backups/EXO/EXO-${DATE}/
