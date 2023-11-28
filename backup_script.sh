@@ -1,11 +1,8 @@
 DATE=$(date +\%Y_\%m_\%d_\%H_\%M_\%S)
-
 CHUNK_SIZE=256M
-
-mkdir -p /home/exo/Backups
-
-# Redirect stdout and stderr to a log file
-LOG_FILE="/home/exo/Backups/BACKUP_${DATE}.log"
+LOG_PATH="/home/exo/Jetson-TX2-Backup/Backups"
+LOG_FILE="${LOG_PATH}/BACKUP_${DATE}.log"
+mkdir -p ${LOG_PATH}
 exec > >(tee -a ${LOG_FILE})
 exec 2>&1
 
@@ -34,16 +31,15 @@ if [ $? -eq 0 ]; then
   log "Total space backed up: $BACKED_UP_SPACE"
 
   # Create a summary log file
-  SUMMARY_LOG="/home/exo/Backups/BACKUP_${DATE}.log"
-  echo "Backup Status: Successful" >> ${SUMMARY_LOG}
-  echo "Start Time: $START_TIME" >> ${SUMMARY_LOG}
-  echo "End Time: $END_TIME" >> ${SUMMARY_LOG}
-  echo "Duration: $(date -u -d @$DURATION +\%H:\%M:\%S)" >> ${SUMMARY_LOG}
-  echo "Total Space Backed Up: $BACKED_UP_SPACE" >> ${SUMMARY_LOG}
+  echo "Backup Status: Successful" >> ${LOG_FILE}
+  echo "Start Time: $START_TIME" >> ${LOG_FILE}
+  echo "End Time: $END_TIME" >> ${LOG_FILE}
+  echo "Duration: $(date -u -d @$DURATION +\%H:\%M:\%S)" >> ${LOG_FILE}
+  echo "Total Space Backed Up: $BACKED_UP_SPACE" >> ${LOG_FILE}
 else
   log "Backup failed."
-  echo "Backup Status: Failed" > ${SUMMARY_LOG}
+  echo "Backup Status: Failed" > ${LOG_FILE}
 fi
 
 #copy log file to a drive 
-rclone copy /home/exo/Backups/BACKUP_${DATE}.log rover-backup:/Jetson-TX2/Backups/EXO/EXO-${DATE}/
+rclone copy ${LOG_FILE} rover-backup:/Jetson-TX2/Backups/EXO/EXO-${DATE}/
