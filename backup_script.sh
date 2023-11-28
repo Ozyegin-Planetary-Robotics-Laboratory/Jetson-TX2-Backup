@@ -41,5 +41,6 @@ else
   echo "Backup Status: Failed" > ${LOG_FILE}
 fi
 
-#copy log file to a drive 
+#copy log file to a drive then delete it. 
 rclone copy ${LOG_FILE} backup:/Jetson-TX2/Backups/EXO/EXO-${DATE}/
+rm ${LOG_FILE}
