@@ -13,7 +13,7 @@ log() {
 START_TIME=$(date +%s)
 log "Backup started at: $(date +\%Y-\%m-\%d_\%H:\%M:\%S)"
 
-sudo rclone copy --verbose --drive-chunk-size ${CHUNK_SIZE} /home/exo/ rover-backup:/Jetson-TX2/Backups/EXO/EXO-${DATE}/
+sudo rclone copy --verbose --drive-chunk-size ${CHUNK_SIZE} /home/exo/ backup:/Jetson-TX2/Backups/EXO/EXO-${DATE}/
 
 END_TIME=$(date +%s)
 
@@ -42,4 +42,4 @@ else
 fi
 
 #copy log file to a drive 
-rclone copy ${LOG_FILE} rover-backup:/Jetson-TX2/Backups/EXO/EXO-${DATE}/
+rclone copy ${LOG_FILE} backup:/Jetson-TX2/Backups/EXO/EXO-${DATE}/
